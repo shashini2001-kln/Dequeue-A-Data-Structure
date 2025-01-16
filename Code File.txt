@@ -1,0 +1,254 @@
+//contiguous implementation
+
+//Create Dequeue
+public class Dequeue  { 
+private int front; 
+private int rear; 
+int maxSize; 
+int count; 
+int dequeue[]; 
+public Dequeue(int size) { 
+maxSize = size; 
+dequeue = new int[maxSize]; 
+front = -1; 
+rear = -1; 
+count = 0; 
+	} 
+} 
+
+//Check Dequeue is empty 
+public boolean IsDequeueEmpty() {
+ return (front == -1) && (rear == -1) ;
+ }
+
+//Check Dequeue is full 
+public boolean IsDequeueFull() { 
+return (front == rear + 1)|| 
+(front == 0 && rear == maxSize-1); 
+}
+
+//Size of the Dequeue 
+public void size() {
+ System.out.println("Dequeue size is: " + count); 
+} 
+
+//Insert Front 
+public void InsertFront(int data) { 
+if(IsDequeueFull()) { 
+System.out.println("Dequeue is Full"); 
+} else if (IsDequeueEmpty()) { 
+front = 0; 
+rear = 0; 
+dequeue[front] = data; 
+count++; 
+} else if (front == 0) { 
+front = maxSize - 1; 
+dequeue[front] = data; 
+count++; 
+}else { 
+front--; 
+dequeue[front] = data; 
+count++; 
+} } 
+
+//Insert Rear 
+public void InsertRear(int data) {  
+if(IsDequeueFull()){ 
+System.out.println("Dequeue is full."); 
+} else if (IsDequeueEmpty()) { 
+front = rear = 0; 
+dequeue[rear] = data; 
+count++; 
+} else { 
+rear = (rear + 1) % maxSize; 
+dequeue[rear] = data; count++; 
+} }
+
+//Delete Front 
+public int DeleteFront() { 
+int delete; 
+if(IsDequeueEmpty()) { 
+System.out.println("Dequeue is empty."); 
+return 0; 
+} else if (front == rear) { 
+delete = dequeue[front]; 
+front = rear = -1; 
+count--;
+ return delete; 
+} else { 
+delete = dequeue[front]; 
+front = (front + 1) % maxSize; 
+count--; 
+return delete;    } } 
+
+//Delete Rear 
+public int DeleteRear(){
+int delete;
+if (IsDequeueEmpty()){
+System.out.println("Dequeue is empty.");
+return 0;
+} else if (front == rear) {
+delete = dequeue[rear];
+front = rear = -1;
+count--;
+return delete;
+} else if(rear == 0) {
+delete = dequeue[rear];
+rear = maxSize - 1;
+count--;
+return delete;
+} else {
+delete = dequeue[rear];
+rear = rear - 1;
+count--;
+return delete;
+} }
+
+//Get Front 
+public void getFront() { 
+if(IsDequeueEmpty()){ 
+System.out.println("Dequeue is Empty."); 
+}else { 
+System.out.print("Front element is: " +dequeue[front]); 
+} } 
+
+//Get Rear 
+public void getRear() { 
+if(IsDequeueEmpty()) { 
+System.out.println("Dequeue is Empty."); 
+}else { 
+System.out.print("Rear element is:"+dequeue[rear]); 
+} }
+
+
+//linked implementation
+
+//Node class
+public class Node {
+int data;
+Node next;
+Node prev;
+
+public Node(int data) {
+this.data = data;
+this.next = null;
+this.prev = null;
+}}
+
+//Create Dequeue
+public class Dequeue {
+private Node front;
+private Node rear;
+private int dequeueSize;
+
+public Dequeue(){
+front = null;
+rear = null;
+dequeueSize = 0;
+}
+
+//IsDequeueEmpty
+
+public boolean IsDequeueEmpty(){
+return dequeueSize == 0;
+}
+
+//Size of Dequeue
+
+public void size(){
+System.out.println("Dequeue size is: "+dequeueSize);
+}
+
+//Get Front
+
+public int getFront(){
+if(IsDequeueEmpty()){
+System.out.println("Dequeue is empty.");
+return -1;
+}else{
+return front.data;
+}
+}
+
+//Get Rear
+public int getRear(){
+if(IsDequeueEmpty()){
+System.out.println("Dequeue is empty.");
+return -1;
+}else{
+return rear.data;
+}
+}
+
+//Insert Front
+public void InsertFront(int item) {
+Node newNode = new Node(item);
+if(newNode == null){
+System.out.println("Out of the memory space");
+}
+else if (IsDequeueEmpty()) {
+front = rear = newNode;
+dequeueSize++;
+} else {
+newNode.next = front;
+front.prev = newNode;
+front = newNode;
+dequeueSize++;
+}
+}
+
+
+//Insert Rear
+public void InsertRear(int item) {
+Node newNode = new Node(item);
+if(newNode == null){
+System.out.println("Out of the memory space");
+}
+else if (IsDequeueEmpty()) {
+front = rear = newNode;
+dequeueSize++;
+} else {
+rear.next = newNode;
+newNode.prev = rear;
+rear = newNode;
+dequeueSize++;
+}
+}
+
+
+//Delete Front
+public int DeleteFront() {
+if (IsDequeueEmpty()) {
+System.out.println("Dequeue is empty.");
+return -1;
+} else if(front == rear){
+int removed = front.data;
+front = rear = null;
+dequeueSize--;
+return removed;
+}else {
+int removed = front.data;
+front = front.next;
+front.prev = null;
+dequeueSize--;
+return removed;
+} }
+
+
+//Delete Rear
+public int DeleteRear() {
+if (IsDequeueEmpty()) {
+System.out.println("Dequeue is empty.");
+return -1;
+}else if (front == rear) {
+int removed = rear.data;
+front = rear = null;
+dequeueSize--;
+return removed;
+}else{
+int removed = rear.data;
+rear = rear.prev;
+rear.next = null;
+dequeueSize--;
+return removed;
+} }
